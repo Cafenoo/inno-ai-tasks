@@ -1,0 +1,338 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Express.js Backend Development Guide (TypeScript)
+
+## Framework Overview
+This project uses Express.js with TypeScript, the most popular Node.js web framework, for building robust and scalable backend applications.
+
+## Project Structure
+The backend follows Express.js and TypeScript best practices with the following key directories:
+
+- `src/` - Main source code directory
+  - `controllers/` - Express route handlers and business logic
+  - `models/` - Database models and schemas
+  - `routes/` - Express route definitions
+  - `middleware/` - Express middleware functions
+  - `services/` - Business logic and external service integrations
+  - `utils/` - Helper functions and utilities
+  - `config/` - Configuration files
+  - `types/` - TypeScript type definitions
+  - `tests/` - Test files
+
+## Key Files
+- `src/app.ts` - Express application setup and middleware configuration
+- `src/server.ts` - Express server initialization
+- `package.json` - Project dependencies and scripts
+- `tsconfig.json` - TypeScript configuration
+- `.env` - Environment variables (not committed to version control)
+- `src/config/database.ts` - Database configuration
+- `src/routes/index.ts` - Express router configuration
+
+## TypeScript Configuration
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+## Express.js Patterns with TypeScript
+1. **Route Handler Pattern**
+   ```typescript
+   import { Request, Response, NextFunction } from 'express';
+   import { UserService } from '../services/user.service';
+
+   const userService = new UserService();
+
+   export const getUsers = async (
+     req: Request,
+     res: Response,
+     next: NextFunction
+   ): Promise<void> => {
+     try {
+       const users = await userService.getAllUsers();
+       res.json(users);
+     } catch (error) {
+       next(error);
+     }
+   };
+   ```
+
+2. **Middleware Pattern**
+   ```typescript
+   import { Request, Response, NextFunction } from 'express';
+   import { CustomError } from '../types/error';
+
+   export const authMiddleware = (
+     req: Request,
+     res: Response,
+     next: NextFunction
+   ): void => {
+     try {
+       // Authentication logic
+       next();
+     } catch (error) {
+       next(new CustomError('Authentication failed', 401));
+     }
+   };
+   ```
+
+3. **Error Handling Middleware**
+   ```typescript
+   import { Request, Response, NextFunction } from 'express';
+   import { CustomError } from '../types/error';
+
+   export const errorHandler = (
+     err: Error | CustomError,
+     req: Request,
+     res: Response,
+     next: NextFunction
+   ): void => {
+     const status = err instanceof CustomError ? err.status : 500;
+     res.status(status).json({
+       error: {
+         message: err.message,
+         status
+       }
+     });
+   };
+   ```
+
+## TypeScript Best Practices
+1. **Type Definitions**
+   - Create interfaces for all data structures
+   - Use type guards for runtime type checking
+   - Leverage TypeScript's utility types
+   - Use strict null checks
+
+2. **Code Organization**
+   - Use barrel exports (index.ts files)
+   - Separate type definitions
+   - Use proper module imports/exports
+   - Follow TypeScript naming conventions
+
+3. **Error Handling**
+   - Create custom error classes
+   - Use type guards for error handling
+   - Implement proper error boundaries
+
+## Development Workflow
+1. **Setup**
+   ```bash
+   npm install typescript @types/node @types/express
+   npm install
+   cp .env.example .env
+   ```
+
+2. **Development**
+   ```bash
+   npm run dev
+   ```
+
+3. **Testing**
+   ```bash
+   npm test
+   ```
+
+4. **Production**
+   ```bash
+   npm run build
+   npm start
+   ```
+
+## Dependencies
+### Core Framework
+- express - Web framework
+- typescript - TypeScript compiler
+- @types/express - TypeScript definitions for Express
+- @types/node - TypeScript definitions for Node.js
+- ts-node - TypeScript execution engine
+- ts-node-dev - Development server with hot-reload
+
+### Database & ORM
+- typeorm - TypeScript ORM
+- @types/typeorm - TypeScript definitions for TypeORM
+- redis - Caching and session store
+- @types/redis - TypeScript definitions for Redis
+
+### Authentication & Security
+- jsonwebtoken - JWT authentication
+- @types/jsonwebtoken - TypeScript definitions for JWT
+- bcrypt - Password hashing
+- @types/bcrypt - TypeScript definitions for bcrypt
+- express-rate-limit - Rate limiting
+- helmet - Security headers
+- express-session - Session management
+- @types/express-session - TypeScript definitions for express-session
+
+### Testing & Quality
+- jest - Testing framework
+- @types/jest - TypeScript definitions for Jest
+- ts-jest - TypeScript support for Jest
+- supertest - HTTP assertions
+- @types/supertest - TypeScript definitions for supertest
+- eslint - Code linting
+- @typescript-eslint/parser - TypeScript parser for ESLint
+- @typescript-eslint/eslint-plugin - TypeScript rules for ESLint
+- prettier - Code formatting
+- husky - Git hooks
+- lint-staged - Lint staged files
+
+### Documentation
+- swagger-ui-express - API documentation
+- @types/swagger-ui-express - TypeScript definitions
+- express-swagger-generator - Swagger generation
+- typedoc - TypeScript documentation generator
+
+### Monitoring & Logging
+- winston - Logging
+- @types/winston - TypeScript definitions for winston
+- morgan - HTTP request logging
+- @types/morgan - TypeScript definitions for morgan
+- prom-client - Prometheus metrics
+- express-status-monitor - Status monitoring
+
+### Development Tools
+- nodemon - Development server
+- ts-node-dev - TypeScript development server
+- dotenv - Environment variables
+- cross-env - Cross-platform environment variables
+- concurrently - Run multiple commands
+
+### Production
+- pm2 - Process manager
+- compression - Response compression
+- express-rate-limit - Rate limiting
+- helmet - Security headers
+
+## TypeScript Configuration
+1. **Compiler Options**
+   - Enable strict mode
+   - Use modern JavaScript features
+   - Configure module resolution
+   - Set up path aliases
+
+2. **Type Definitions**
+   - Create custom type definitions
+   - Use declaration files
+   - Leverage TypeScript's type system
+
+3. **Build Process**
+   - Configure TypeScript compilation
+   - Set up source maps
+   - Configure watch mode
+
+## Testing Strategy
+1. **Unit Tests**
+   - Test TypeScript interfaces
+   - Test type guards
+   - Test utility functions
+   - Use Jest with ts-jest
+
+2. **Integration Tests**
+   - Test API endpoints
+   - Test database interactions
+   - Test middleware chains
+
+3. **E2E Tests**
+   - Test complete API flows
+   - Test error scenarios
+   - Use TypeScript in tests
+
+## Performance Considerations
+1. **TypeScript Optimization**
+   - Use proper type definitions
+   - Avoid unnecessary type assertions
+   - Use const assertions
+   - Leverage TypeScript's type inference
+
+2. **Build Optimization**
+   - Configure proper source maps
+   - Use incremental builds
+   - Optimize TypeScript compilation
+
+3. **Runtime Performance**
+   - Use proper type guards
+   - Optimize type checking
+   - Use proper error handling
+
+## Security Best Practices
+1. **TypeScript Security**
+   - Use strict type checking
+   - Validate input types
+   - Use proper error handling
+   - Implement proper type guards
+
+2. **Authentication**
+   - Use type-safe authentication
+   - Implement proper password hashing
+   - Use secure cookies
+   - Use proper session management
+
+3. **Data Protection**
+   - Use type-safe input validation
+   - Implement proper error handling
+   - Use proper type guards
+   - Sanitize user input
+
+## Monitoring and Logging
+1. **TypeScript Logging**
+   - Use type-safe logging
+   - Implement proper error tracking
+   - Use proper type guards
+   - Log important events
+
+2. **Performance Monitoring**
+   - Monitor TypeScript compilation
+   - Track type checking performance
+   - Monitor runtime performance
+   - Use proper metrics
+
+## Deployment
+1. **TypeScript Deployment**
+   - Configure production build
+   - Use proper source maps
+   - Implement proper error handling
+   - Use proper logging
+
+2. **CI/CD**
+   - Configure TypeScript compilation
+   - Run type checking
+   - Run tests
+   - Deploy to production
+
+## Security Checklist
+- [ ] TypeScript strict mode enabled
+- [ ] Proper type definitions
+- [ ] Type-safe authentication
+- [ ] Input validation
+- [ ] Error handling
+- [ ] Security headers
+- [ ] SQL injection prevention
+- [ ] XSS protection
+- [ ] CSRF protection
+- [ ] Regular dependency updates
+
+
+
+

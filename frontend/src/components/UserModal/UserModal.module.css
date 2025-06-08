@@ -1,0 +1,167 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 450px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.modalContent {
+  padding-right: 0;
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+.title {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.emailTop {
+  font-size: 14px;
+  color: #007bff;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+
+.section {
+  margin-bottom: 24px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.section h3 {
+  color: #333;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.section p {
+  margin: 4px 0;
+  line-height: 1.4;
+  color: #333;
+  font-size: 14px;
+}
+
+.mapLink {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  padding: 0;
+  background-color: transparent;
+  color: #007bff;
+  text-decoration: none;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.mapLink:hover {
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+.mapPin {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    padding: 16px;
+  }
+
+  .modalContent {
+    padding-right: 0;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .emailTop {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .section {
+    margin-bottom: 20px;
+  }
+
+  .section h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .section p {
+    font-size: 13px;
+  }
+
+  .mapLink {
+    font-size: 13px;
+  }
+} 

@@ -1,0 +1,52 @@
+{
+  "name": "express-backend",
+  "version": "1.0.0",
+  "description": "Express.js backend application",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "npx ts-node src/server.ts",
+    "dev": "npx nodemon src/server.ts",
+    "test": "jest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "migration:run": "npx ts-node src/migrations/run-migrations.ts",
+    "migration:revert": "npx ts-node ./node_modules/typeorm/cli.js migration:revert -d src/config/data-source.ts",
+    "typeorm": "npx ts-node ./node_modules/typeorm/cli.js",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.16.0",
+    "typeorm": "^0.3.24"
+  },
+  "devDependencies": {
+    "@testcontainers/postgresql": "^11.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.2",
+    "@types/jest": "^29.5.14",
+    "@types/supertest": "^6.0.3",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.1",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.3.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}

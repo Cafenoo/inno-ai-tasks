@@ -1,0 +1,120 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Frontend User Directory Application Guidelines
+
+## Project Structure
+The application follows a modular structure with the following key directories:
+
+- `src/`
+  - `components/` - Reusable UI components
+  - `pages/` - Page-level components
+  - `services/` - API integration and data fetching
+  - `types/` - TypeScript type definitions
+  - `styles/` - CSS Modules and global styles
+  - `utils/` - Helper functions and utilities
+  - `hooks/` - Custom React hooks
+  - `context/` - React context providers
+
+## Component Organization
+
+### User Directory Components
+- `UserTable/` - Main table component for displaying user data
+  - `UserTable.tsx` - Main component
+  - `UserTable.module.css` - Component styles
+  - `UserTable.types.ts` - Type definitions
+  - `UserTable.test.tsx` - Unit tests
+
+- `UserModal/` - Modal component for detailed user information
+  - `UserModal.tsx` - Modal component
+  - `UserModal.module.css` - Modal styles
+  - `UserModal.types.ts` - Type definitions
+
+### Shared Components
+- `Button/` - Reusable button component
+- `Input/` - Form input components
+- `Loading/` - Loading state components
+- `ErrorBoundary/` - Error handling component
+
+## TypeScript Guidelines
+
+### Type Definitions
+- Define interfaces for all API responses in `types/api.types.ts`
+- Use strict type checking
+- Avoid using `any` type
+- Define proper return types for all functions
+
+### Component Props
+- Use interface for component props
+- Make props readonly when possible
+- Use proper event types for handlers
+
+## CSS Modules Guidelines
+
+### Naming Conventions
+- Use camelCase for class names
+- Prefix component-specific classes with component name
+- Use BEM-like structure for complex components
+
+### Responsive Design
+- Use CSS Grid for layout
+- Implement mobile-first approach
+- Use CSS variables for theming
+
+## API Integration
+
+### Service Layer
+- Create separate service for user-related API calls
+- Implement proper error handling
+- Use TypeScript for API response types
+- Implement request caching where appropriate
+
+### Data Fetching
+- Use React Query for data fetching
+- Implement proper loading states
+- Handle error states gracefully
+- Implement pagination for large datasets
+
+## Testing Guidelines
+
+### Unit Tests
+- Test all utility functions
+- Test component rendering
+- Test user interactions
+- Mock API calls
+
+### Integration Tests
+- Test component integration
+- Test data flow
+- Test error scenarios
+
+## Performance Guidelines
+
+### Optimization
+- Implement proper memoization
+- Use React.lazy for code splitting
+- Optimize re-renders
+- Implement proper loading states
+
+### Accessibility
+- Use semantic HTML
+- Implement proper ARIA attributes
+- Ensure keyboard navigation
+- Maintain proper color contrast
+
+## Code Quality
+
+### Linting
+- Use ESLint for TypeScript
+- Use Prettier for code formatting
+- Follow consistent naming conventions
+- Document complex logic
+
+### Git Workflow
+- Use feature branches
+- Write meaningful commit messages
+- Keep commits atomic
+- Review code before merging
+
