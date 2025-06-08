@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .expense-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .expense-form input, 
+        .expense-form button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .calculate-btn {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .results {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .results h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Expense Calculator</h1>
+        
+        <div class="expense-form">
+            <input type="text" id="category" placeholder="Category" required>
+            <input type="number" id="amount" placeholder="Amount ($)" required>
+            <button onclick="addExpense()">Add Expense</button>
+        </div>
+
+        <button onclick="calculateExpenses()" class="calculate-btn">Calculate</button>
+
+        <table id="expenseTable">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount ($)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="results" id="results" style="display: none;">
+            <h2>Results</h2>
+            <p>Total Expenses: $<span id="totalExpenses">0</span></p>
+            <p>Average Daily Expense: $<span id="avgDailyExpense">0</span></p>
+            <h3>Top 3 Largest Expenses:</h3>
+            <ul id="topExpenses"></ul>
+        </div>
+    </div>
+
+    <script>
+        let expenses = [];
+
+        function addExpense() {
+            const category = document.getElementById('category').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (!category || isNaN(amount) || amount <= 0) {
+                alert('Please enter valid category and amount');
+                return;
+            }
+
+            expenses.push({ category, amount });
+            updateTable();
+            
+            // Clear inputs
+            document.getElementById('category').value = '';
+            document.getElementById('amount').value = '';
+        }
+
+        function updateTable() {
+            const tbody = document.querySelector('#expenseTable tbody');
+            tbody.innerHTML = '';
+
+            expenses.forEach((expense, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${expense.category}</td>
+                    <td>${expense.amount.toLocaleString()}</td>
+                    <td><button class="delete-btn" onclick="deleteExpense(${index})">Delete</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function deleteExpense(index) {
+            expenses.splice(index, 1);
+            updateTable();
+        }
+
+        function calculateExpenses() {
+            if (expenses.length === 0) {
+                alert('Please add some expenses first');
+                return;
+            }
+
+            // Calculate total expenses
+            const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            
+            // Calculate average daily expense (assuming 30 days in a month)
+            const avgDaily = total / 30;
+
+            // Get top 3 expenses
+            const topExpenses = [...expenses]
+                .sort((a, b) => b.amount - a.amount)
+                .slice(0, 3);
+
+            // Update results
+            document.getElementById('totalExpenses').textContent = total.toLocaleString();
+            document.getElementById('avgDailyExpense').textContent = avgDaily.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            const topExpensesList = document.getElementById('topExpenses');
+            topExpensesList.innerHTML = '';
+            topExpenses.forEach(expense => {
+                const li = document.createElement('li');
+                li.textContent = `${expense.category}: $${expense.amount.toLocaleString()}`;
+                topExpensesList.appendChild(li);
+            });
+
+            document.getElementById('results').style.display = 'block';
+        }
+    </script>
+</body>
+</html> 
